@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.english.dao.BaseDao">
+    <!--<insert id="insertWords" parameterType="java.util.List">-->
+        <!--INSERT INTO word1(word,soundmark,cn) values-->
+        <!--<foreach collection="#{list}" item="as" separator=",">-->
+            <!--(#{as.word},#{as.soundmark},#{as.cn})-->
+        <!--</foreach>-->
+    <!--</insert>-->
+
+    <insert id="insertWords" >
+        insert into ${tableName}(${clmName}) values
+        <foreach collection="list" item="item" separator=",">
+            ('${item}')
+        </foreach>
+    </insert>
+    <select id="normalSelect" resultType="com.english.entity.Word">
+        SELECT * FROM word
+    </select>
+</mapper>

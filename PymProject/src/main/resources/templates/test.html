@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript" th:src="@{/js/jquery-1.8.2.min.js}"></script>
+<script src="layer/layer.js" th:src="@{/layer/layer.js}"></script>
+
+<body>
+<br><br><br><br>
+<h1>上点击手机发集散地</h1><br><br><br>
+        <div id="mainContent"></div>
+
+<script>
+    $(document).ready(function() {
+        $("#mainContent").load("www.cgdict.com/index.php?app=cigen&ac=word&w=tion");
+    });
+</script>
+
+</body>
+</html>

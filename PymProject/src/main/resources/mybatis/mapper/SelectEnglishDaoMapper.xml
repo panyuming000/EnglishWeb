@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.english.dao.SelectEnglishDao">
+    <select id="normalSelect" resultType="com.english.entity.Word">
+        SELECT * FROM word
+    </select>
+
+    <select id="wordLikeSelect" resultType="com.english.entity.Word">
+        SELECT * FROM word WHERE word LIKE #{param1}
+    </select>
+    <select id="cnLikeSelect" resultType="com.english.entity.Word">
+        SELECT * FROM word WHERE cn LIKE #{param1}
+    </select>
+    <select id="wordLikeSelect_s" resultType="com.english.entity.Word">
+        SELECT id,word,cn,lx FROM cetsix WHERE word LIKE #{param1}
+    </select>
+    <select id="cnLikeSelect_s" resultType="com.english.entity.Word">
+        SELECT id,word,cn,lx FROM cetsix WHERE cn LIKE #{param1}
+    </select>
+    <select id="likeSelect_s" resultType="com.english.entity.Word">
+        SELECT * FROM cetsix
+    </select>
+    <select id="sentence" resultType="com.english.entity.Word">
+        SELECT * FROM word WHERE
+        <foreach collection="list" item="item" separator="or">
+            word='${item}'
+        </foreach>
+    </select>
+    <select id="sentence_s" resultType="com.english.entity.Word">
+        SELECT * FROM cetsix WHERE
+        <foreach collection="list" item="item" separator="or">
+            word='${item}'
+        </foreach>
+    </select>
+
+    <select id="basePage" resultType="com.english.entity.ReferWord">
+        SELECT * FROM wordBase
+    </select>
+    <select id="baseLike" resultType="com.english.entity.Word">
+         SELECT * FROM word WHERE word like #{param1};
+    </select>
+    <select id="baseLike_s" resultType="com.english.entity.Word">
+        SELECT * FROM cetsix WHERE word like #{param1};
+    </select>
+    <select id="wordAndRefer" resultType="com.english.entity.ReferWord">
+        SELECT id,refer FROM refer r INNER JOIN (SELECT rid FROM refer_and_word where wid=#{param1}) w on r.id=w.rid
+    </select>
+
+    <select id="referAndWord" resultType="com.english.entity.Word">
+        SELECT * FROM word w INNER JOIN (SELECT wid FROM refer_and_word where rid=#{param1}) r on w.id=r.wid
+    </select>
+    <resultMap id="timeRefer" type="com.english.entity.ReferWord">
+        <id column="id" property="id"></id>
+        <result property="refer" column="refer"></result>
+        <association property="wids"
+                     select="referAndWord"
+                     column="id">
+        </association>
+    </resultMap>
+    <select id="timeAndRefer" resultMap="timeRefer">
+        SELECT id,refer FROM refer r where time=#{param1}
+    </select>
+
+</mapper>

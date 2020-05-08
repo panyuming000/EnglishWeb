@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.english.dao.InsertEnglishDao">
+    <insert  id="referInsert" parameterType="com.english.entity.ReferWord" useGeneratedKeys="true" keyProperty="id">
+       INSERT INTO refer(refer,time) values(#{refer.refer},#{refer.time})
+    </insert>
+    <insert  id="referFound" parameterType="int" >
+        INSERT INTO refer_and_word(wid,rid) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item},#{refer})
+        </foreach>
+    </insert>
+    <update id="baseCn">
+        UPDATE wordBase SET base_cn=#{param1} WHERE base=#{param2}
+    </update>
+    <insert  id="insertBase" parameterType="com.english.entity.ReferWord">
+       INSERT INTO wordBase(base,base_cn) values(#{param2},#{param1})
+    </insert>
+
+</mapper>

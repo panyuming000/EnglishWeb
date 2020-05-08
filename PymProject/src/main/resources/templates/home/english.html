@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--[if IE 7 ]>    <html lang="en-gb" class="isie ie7 oldie no-js"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en-gb" class="isie ie8 oldie no-js"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en-gb" class="isie ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en-gb" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<!--[if lt IE 9]>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<![endif]-->
+	<title></title>
+	<meta name="description" content="">
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<!--[if lte IE 8]>
+	<script type="text/javascript" src="http://explorercanvas.googlecode.com/svn/trunk/excanvas.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href= "css/bootstrap.min.css" th:href="@{'/css/bootstrap.min.css'}"/>
+	<link rel="stylesheet" type="css" href="css/isotope.css" media="screen" th:href="@{/css/isotope.css}"/>
+	<link rel="stylesheet" href="js/fancybox/jquery.fancybox.css" type="text/css" media="screen" th:href="@{/js/fancybox/jquery.fancybox.css}"/>
+	<link rel="stylesheet" type="text/css" href="css/da-slider.css" th:href="@{/css/da-slider.css}" />
+	<link rel="stylesheet" href="css/styles.css" th:href="@{/css/styles.css}"/>
+	<!-- Font Awesome -->
+	<link href="font/css/font-awesome.min.css" rel="stylesheet" th:href="@{/font/css/font-awesome.min.css}">
+	<style type="text/css">
+		.pym-font{
+			color: greenyellow;
+		}
+		.pym-fontSize{
+			font-size: 40px;
+		}
+		span{
+			font-size: 30px;
+		}
+		.pym-btn{
+			height: 60px;width: 270px;font-size: 65px;padding-top: 0px;border-top-style: solid;padding-bottom: 60px;
+		}
+		.pym-c1{
+			background: #333339;
+		}
+		.clear{
+			clear:both;
+		}
+		.pym-nbsp1{margin--left: 100px;}
+		.pym-pf{padding-left: 50%;padding-right: 50%;width: 1192px}
+	</style>
+</head>
+<body>
+<!--/.header-->
+<section id="portfolio" class="page-section section appear clearfix clear" style="height: 990px;">
+	<div class="row clear" style="margin-left: 30%;">
+		<input type="text"  class="form-control" placeholder="查询" id="like" required
+			   data-validation-required-message="Please enter your name" style="margin-left: 150px;float: left;"/>
+		<div style="float: left"><button class='btn btn-primary ' id="cnLike" style="margin-bottom: 0px;margin-left: 35%;display: none">中文查询</button></div>
+	</div><br>
+	<div style="margin-left: 50px;width:250px;height:800px;background: #333333;float: left" >
+		<div style="margin-left: 0px;width:250px;height:800px;float:left">
+			<table id="wordPool" style="width: 250px"></table >
+			<button class='btn btn-primary ' id="poolButton" style="margin-bottom: 10px;margin-left: 35%">Go</button>
+		</div>
+		<article class="" style="margin-left: 300px;">
+			<div class="portfolio-desc align-center" style="margin-left: 20%;width: 1400px;height: 800px;background: #333333;float: left;" id="dataSource">
+			</div>
+		</article>
+	</div>
+	<header   style="float:left;margin-left: 94%;margin-top: 0px;width: 100px;height: 800px;background: #333333;position:fixed">
+		<nav class="navbar navbar-inverse pym-c1" role="navigation" style="margin-top: 0px;height: 800px">
+			<ul class="nav navbar-nav pym-c1" id="mainNav" style="border-left: 0px">
+				<li><a href="#portfolio" class="scroll-link pym-c1" id="btm1">Home</a></li>
+				<li><a href="#portfolio2" class="scroll-link pym-c1" id="btm2">词根链接</a></li>
+				<li><a href="#portfolio3" class="scroll-link pym-c1" id="btm3">语句链接</a></li>
+				<li><a href="#portfolio" class="scroll-link pym-c1" id="btm4">暂未开放</a></li>
+				<li><a href="#team" class="scroll-link pym-c1" id="btm5">暂未开放</a></li>
+				<li><a href="#contactUs" class="scroll-link pym-c1" id="btm6">暂未开放</a></li>
+			</ul>
+		</nav>
+	</header>
+</section>
+<div class="clear" style="border-top: 105%;width: 100%;height: 1000px;">
+	词根名<input  type="text" id="baseName"/><br>根意<input type="text" id="baseValue"/><br><input type="button" id="baseCn" value="提交"/>
+	<div id="portfolio2"  style="background:#707070;width: 100%;height: 100%;">
+</div>
+<!--<div class="container" style="margin-left: 250px;padding-bottom: 100%;width: 100%;height: 100%;margin-right: 250px;"></div>-->
+<div class="clear" style="border-top: 105%;width: 100%;height: 1000px;">
+	<input type="text"/><input type="button" id="timeRefer"/>
+	<div id="portfolio3"  style="background:blanchedalmond;width: 100%;height: 100%;"><center><h1><a href="" id="getRefer">获取关联语句</a></h1></center>
+	</div>
+
+</div>
+<input type="hidden" id="contextPath" th:value="@{/}"/><a href="" style="display: none" id="tiao"/>
+<script th:src="@{/js/jquery-1.8.2.min.js}"></script>
+<script src="layer/layer.js" th:src="@{/layer/layer.js}"></script>
+
+<script>
+	<!---->
+	$(function() {
+        dataSource = "dataSource";
+        jsonDatas = {
+            type: "POST",
+            scriptCharset: "UTF-8",
+            success: getView
+        }
+        contextPath = $("#contextPath").attr("value");
+        //json数据
+        //页数
+        pageNo = 1;
+        //配置模糊查询标志
+        isLike = false;
+        //	查询所对应的列
+        clm = "word";
+        //两张表的切换
+        isLike_s=false;
+        //模糊查询的值
+        likeValue = "";
+        //非模糊查询
+        notLikeName = "normalSelect";
+        // 	普通查询（normalSelect）
+        //	对应语句查询(ReferSelect)
+        //	词根查询（wordBaseSelect）
+        getPage(1);
+        $("#like").blur(function () {
+                isLike = true;
+                likeValue = $(this).val();
+                jsonDatas.data = {likeValue: likeValue}
+				 if(/(:)/.test(likeValue)){
+                   likeValue=likeValue.substring(1,likeValue.length);
+                     jsonDatas.data = {likeValue: likeValue}
+					 getPage_s(1);
+                    return;
+                }
+                getPage(1);
+        });
+        tiao=function(a){
+            $(this).href=a;
+            $(this).click();
+		}
+        // $("#cnLike").click(function () {
+        //     isLike = true;
+        //     likeValue = $("#like").val();
+        //     jsonDatas.data = {likeValue: likeValue}
+        //     getPage(1);
+        // });
+	$(".scroll-link").click(function(){
+	    $(".scroll-link").css("background","#333333");
+	    $(this).css("background","green");
+	});
+		$("#baseCn").click(function(){
+		    jsonDatas.data={baseName:$("#baseName").val(),baseValue:$("#baseValue").val()};
+		    jsonDatas.url=contextPath+"baseCn";
+		    getPageJson();
+		});
+    });
+        //渲染模板的中间钩子方法，修改渲染方式只修改这个方法
+	var getPage_s=function(no){
+        if(isLike){//模糊查询
+            isLike_s=true;
+            if(/(\s+)|(\s+$)|\s+/g.test(likeValue)){
+                jsonDatas.url=contextPath+"sentence_s/"+no;
+                getPageJson();
+                return;
+            }
+            if(/[a-zA-Z]/.test(likeValue)){
+                jsonDatas.url=contextPath+"wordLike_s/"+no;
+                getPageJson();
+                return;
+            }
+            else{
+                jsonDatas.url=contextPath+"cnLike_s/"+no;
+                getPageJson();
+            }
+
+        }else{//非模糊查询
+            if(notLikeName=="normalSelect"){//常规查询
+                jsonDatas.url=contextPath+"page/"+no;
+                jsonDatas.success=getView;
+                getPageJson();
+                isLike=false;
+                return;
+            }
+        }
+	}
+	var getPage_init=function(no){
+	    if(isLike_s){
+	        getPage_s(no);
+		}else{
+	        getPage(no);
+		}
+	}
+	var getPage=function(no){
+		if(isLike){//模糊查询
+		    isLike_s=false;
+			if(/(\s+)|(\s+$)|\s+/g.test($("#like").val())){
+                jsonDatas.url=contextPath+"sentence/"+no;
+                getPageJson();
+			    return;
+			}
+            if(/([a-zA-Z])/.test($("#like").val())){
+                jsonDatas.url=contextPath+"wordLike/"+no;
+                getPageJson();
+                return;
+            }
+			else{
+                jsonDatas.url=contextPath+"cnLike/"+no;
+                getPageJson();
+			}
+
+		}else{//非模糊查询
+			if(notLikeName=="normalSelect"){//常规查询
+				jsonDatas.url=contextPath+"page/"+no;
+				jsonDatas.success=getView;
+				getPageJson();
+				isLike=false;
+				return;
+			}
+		}
+	}
+
+
+	//视图的渲染和ajax分离，方便多种渲染方式
+	 var getPageJson=function(){
+        $.ajax(jsonDatas);
+	}
+	//新的渲染方式（新的窗口，Word类中所有变量）单页显示一个
+	var getViewWindowWord=function(){
+
+	}
+
+	var getView=function(result){
+	    var p ="<div class='portfolio-desc' style='width:1400px;height:800px;border-right-width: 0px;border-right-style: solid;border-bottom-width: 50px;border-bottom-style: solid;border-top-width: 0px;border-top-style: solid;margin-left: 0px\'>";
+	    p=p+"<table style='width: 1400px;height: 800px'>";
+	    if(result.success){
+            for(var a=0;a<result.datas.length;a++){
+                p=p+"<tr>" +
+                "<td style='width: 180px;visibility: hidden;'><span class='pym-font '>"+result.datas[a].soundmark+"</span></td>" +
+				"<td style='width: 220px'><button href='0' class='btn btn-primary pym-btn pym-link' style='height: 60px;width: 270px;font-size: 45px'>"+result.datas[a].word+"</button></td>" +
+                "<td style='width: 550px;padding-left: 40px'><h2 class='pym-font'>"+result.datas[a].cn+"</h2></td>";
+     				if(result.datas[a].lx==null){
+                    p=p+"<td><button class='btn btn-primary pull-right wordBase' onclick='getBase()'>词根</button></td>"+
+                    "<td style='width: 50px'><button class='btn btn-primary pull-right refer' onclick='getRefer(1,"+result.datas[a].id+")'>关联句</button></td>"+
+                    "<td style='width: 50px'><button class='btn btn-primary pull-right pool' href="+result.datas[a].word+">加入池</button></td>";}else{
+                    p=p+"<td><button class='btn btn-primary pull-right wordBase' style='background: black;pointer-events: none' >词根</button></td>"+
+                    "<td style='width: 50px'><button class='btn btn-primary pull-right refer' style='background: black;pointer-events: none'>关联句</button></td>"+
+                    "<td width='50px'><input type='hidden' name='a' value='"+result.datas[a].lx+"'/><button class='btn btn-primary pull-right' onclick='win_detailed(this)' 　href="+result.datas[a].word+">查看详细</button></td>";
+
+                }
+				p=p+"<td><input type='hidden' name='wid' value='"+result.datas[a].id+"'/></td>"+
+				"</tr>";
+            }
+            p=p+"</table>";
+            p=p+"</div>";
+            // p=p+"<center>"
+            p=p+"<div style='float: left;width: 100%;height: 40px'>"
+
+           if(result.pageNum>1){
+               p=p+"<span><button class='btn btn-primary ' style='margin-left: 39%' onclick='getPage_init(1)'>首页</button></span>";
+               p=p+"<span><button class='btn btn-primary 'onclick='getPage_init("+(result.pageNum-1)+")'>上一页</button></span>";
+		   }else{
+               p=p+"<span><button class='btn btn-primary ' style='margin-left: 39%;background: #5A5A5A;pointer-events: none;' onclick='getPage(1)'>首页</button></span>";
+               p=p+"<span><button class='btn btn-primary ' style='background: #5A5A5A;pointer-events: none;' onclick='getPage("+(result.pageNum-1)+")'>上一页</button></span>";
+           }
+		   if(result.pageNum<result.pageTotal){
+               p=p+"<span><button class='btn btn-primary ' onclick='getPage_init("+(result.pageNum+1)+")'>下一页</button></span>";
+               p=p+"<span><button class='btn btn-primary ' onclick='getPage_init("+(result.pageTotal)+")'>末页</button></span>";
+		   }else{
+               p=p+"<span><button class='btn btn-primary '  style='background: #5A5A5A;pointer-events: none;' onclick='getPage("+(result.pageNum+1)+")'>下一页</button></span>";
+               p=p+"<span><button class='btn btn-primary ' style='background: #5A5A5A;pointer-events: none;' onclick='getPage("+(result.pageTotal)+")'>末页</button></span>";
+           }
+            if(result.pageNum>0){
+                p=p+"<br><input type='text' style='margin-left: 45%;width: 60px;height: 25px;float: left' class='form-control textPage'/><h3 class='pym-font' style='float: left;margin-left: 30px;width: 80px'>"+result.pageNum+"</h3><h3 class='pym-font' style='float: left;margin-right: 200px;'>"+result.pageTotal+"</h3>";
+            }
+            // p=p+"</center>"
+            p=p+"</div>>"
+
+            $("#"+dataSource)[0].innerHTML=p;
+		}
+
+        // $(){
+        //     p=p+"<table style='width: 1400px;height: 800px'>";
+        //     if(result.success){
+        //         for(var a=0;a<result.datas.length;a++){
+        //             p=p+"<tr>" +
+        //                 "<td style='width: 180px;visibility: hidden;'><span class='pym-font '>"+result.datas[a].soundmark+"</span></td>" +
+        //                 "<td style='width: 220px'><button href='0' class='btn btn-primary pym-btn pym-link' style='height: 60px;width: 270px;font-size: 45px'>"+result.datas[a].word+"</button></td>" +
+        //                 "<td style='width: 550px;padding-left: 40px'><h2 class='pym-font'>"+result.datas[a].cn+"</h2></td>";
+        //             if(result.datas[a].lx==null){
+        //                 p=p+"<td><button class='btn btn-primary pull-right wordBase' onclick='getBase()'>词根</button></td>"+
+        //                     "<td style='width: 50px'><button class='btn btn-primary pull-right refer' onclick='getRefer(1,"+result.datas[a].id+")'>关联句</button></td>"+
+        //                     "<td style='width: 50px'><button class='btn btn-primary pull-right pool' href="+result.datas[a].word+">加入池</button></td>";}else{
+        //                 p=p+"<td><button class='btn btn-primary pull-right wordBase' style='background: black;pointer-events: none' >词根</button></td>"+
+        //                     "<td style='width: 50px'><button class='btn btn-primary pull-right refer' style='background: black;pointer-events: none'>关联句</button></td>"+
+        //                     "<td width='50px'><input type='hidden' name='a' value='"+result.datas[a].lx+"'/><button class='btn btn-primary pull-right' onclick='win_detailed(this)' 　href="+result.datas[a].word+">查看详细</button></td>";
+        //
+        //             }
+        //             p=p+"<td><input type='hidden' name='wid' value='"+result.datas[a].id+"'/></td>"+
+        //                 "</tr>";
+        //         }
+        //         p=p+"</table>";
+        //         p=p+"</div>";
+        //         // p=p+"<center>"
+        //         p=p+"<div style='float: left;width: 100%;height: 40px'>"
+        //
+        //         if(result.pageNum>1){
+        //             p=p+"<span><button class='btn btn-primary ' style='margin-left: 39%' onclick='getPage_init(1)'>首页</button></span>";
+        //             p=p+"<span><button class='btn btn-primary 'onclick='getPage_init("+(result.pageNum-1)+")'>上一页</button></span>";
+        //         }else{
+        //             p=p+"<span><button class='btn btn-primary ' style='margin-left: 39%;background: #5A5A5A;pointer-events: none;' onclick='getPage(1)'>首页</button></span>";
+        //             p=p+"<span><button class='btn btn-primary ' style='background: #5A5A5A;pointer-events: none;' onclick='getPage("+(result.pageNum-1)+")'>上一页</button></span>";
+        //         }
+        //         if(result.pageNum<result.pageTotal){
+        //             p=p+"<span><button class='btn btn-primary ' onclick='getPage_init("+(result.pageNum+1)+")'>下一页</button></span>";
+        //             p=p+"<span><button class='btn btn-primary ' onclick='getPage_init("+(result.pageTotal)+")'>末页</button></span>";
+        //         }else{
+        //             p=p+"<span><button class='btn btn-primary '  style='background: #5A5A5A;pointer-events: none;' onclick='getPage("+(result.pageNum+1)+")'>下一页</button></span>";
+        //             p=p+"<span><button class='btn btn-primary ' style='background: #5A5A5A;pointer-events: none;' onclick='getPage("+(result.pageTotal)+")'>末页</button></span>";
+        //         }
+        //         if(result.pageNum>0){
+        //             p=p+"<br><input type='text' style='margin-left: 45%;width: 60px;height: 25px;float: left' class='form-control textPage'/><h3 class='pym-font' style='float: left;margin-left: 30px;width: 80px'>"+result.pageNum+"</h3><h3 class='pym-font' style='float: left;margin-right: 200px;'>"+result.pageTotal+"</h3>";
+        //         }
+        //         // p=p+"</center>"
+        //         p=p+"</div>>"
+        //
+        //         $("#"+dataSource)[0].innerHTML=p;
+        //     }
+        //
+        // }
+		//根据时间查询语句
+        $("#timeRefer").click(function(){
+            jsonDatas.url=contextPath+"timeRefer";
+            jsonDatas.data={likeValue:$(this).prev().val()}
+            oldSuccess =jsonDatas.success;
+            jsonDatas.success=getReferView;
+            getPageJson();
+        })
+		//关联语句
+		$("#getRefer").click(function(){
+            jsonDatas.url=contextPath+"getRefer/"+no;
+            jsonDatas.data={likeValue:a}
+            oldSuccess =jsonDatas.success;
+            jsonDatas.success=getReferView;
+            getPageJson();
+		})
+        getRefer=function(no,a){
+	        jsonDatas.url=contextPath+"wordAndRefer/"+no;
+            jsonDatas.data={likeValue:a}
+            oldSuccess =jsonDatas.success;
+	        jsonDatas.success=getReferView;
+			getPageJson();
+		}
+		var getReferView=function(result){
+	        var p="";
+	        for(var a=0;a<result.datas.length;a++){
+	            p=p+"<h1>"+result.datas[a].id+"</h1>";
+                p=p+"<h1>"+result.datas[a].refer+"</h1>";
+                if(result.datas[a].wids==null||result.datas[a].length==0){}else{
+                    for (var b = 0; b < result.datas[a].wids.length; b++) {
+                        p = p + "<h3>" + result.datas[a].wids[b].word + "</h3>";
+                    }
+                }
+			}
+	        $("#portfolio3")[0].innerHTML=p;
+	        jsonDatas.success=oldSuccess;
+	        tiao("#portfolio2");
+	        $("#btm3").click()
+		}
+
+
+
+
+		//音标的隐藏与显示
+        $(".pym-link").click(function(){
+            var i = $(this).attr("href");
+            if(i==0){
+                $(this).parent().prev()[0].style.visibility="";
+               $(this).attr("href",1);
+            }else{
+                $(this).parent().prev()[0].style.visibility="hidden";
+               $(this).attr("href",0);
+            }
+            return false;
+        });
+	    //词根
+        $(".wordBase").click(function(){
+            var id = $(this).parent().parent().find("input").attr("value");
+		});
+        //关联语句
+        $(".refer").click(function(){
+            var id = $(this).parent().parent().find("input").attr("value");
+        });
+		//输入页数，直接到达
+        $(".textPage").blur(function(){
+            var id = $(this).val();
+            var s1=/[0-9]/
+            if(s1.test(id)){
+				getPage(id);
+			}
+		});
+        //关联语句池
+        $(".pool").click(function(){
+            var id = $(this).parent().parent().find("input").val();
+            var word =$(this).attr("href");
+			var s="";
+			s=s+
+				"<tr>" +
+				"<td class='pym-font pym-fontSize poolId' style='display: none'>"+id+"</td>" +
+                "<td class='pym-font pym-fontSize'>"+word+"</td>" +
+				"<td><button class='btn btn-primary pull-right outPool' style='background: red;width: 40px;height: 40px;'></button></td>"
+				"</tr>";
+            $("#wordPool").append(s);
+
+        	$(".outPool").click(function(){
+                $(this).parent().parent().remove();
+			});
+		});
+        //关联语句池提交
+        $("#poolButton").click(function(){
+            var arr = $(".poolId");
+            var s="[";
+            for(var a=0;a<arr.length;a++){
+                if(a==arr.length-1){ s=s+$(arr[a]).text();break;}
+                s=s+$(arr[a]).text()+",";}s=s+"]"
+            jsonDatas.data={wids:s,referText:""}
+            jsonDatas.url=contextPath+"referInsert"
+			jsonDatas.success=function(result){;if(result.success){layer.msg("插入成功")}else{layer.msg("插入失败")};}
+            layer.open({
+                id:1,
+                type: 1,
+                title:'赋予新的含义',
+                skin:'layui-layer-rim',
+                area:['450px', 'auto'],
+
+                content:"<div class='controls'>\n" +
+                "\t\t<textarea rows='10' cols='100' class='form-control' \n" +
+                "\t\tplaceholder=\"Message\" id=\"message\" required\n" +
+                "\t\tdata-validation-required-message='Please enter your message' minlength='5'\n" +
+                "\t\tdata-validation-minlength-message='Min 5 characters' \n" +
+                "\t\tmaxlength='999' style='resize:none'></textarea>\n" +
+                "</div>"
+
+                ,
+                btn:['保存','取消'],
+                btn1: function (index,layero) {
+                    jsonDatas.data.referText=$("#message").val();
+                    getPageJson();
+                    $("#wordPool").find("tr").remove();
+                    layer.close(index);
+                },
+                btn2:function (index,layero) {
+                    layer.close(index);
+                }
+
+            });
+            jsonDatas.success=getView;
+		});
+        win_detailed=function(a){
+            layer.open({
+                id:1,
+                type: 1,
+                title:"详细信息",
+                skin:'layui-layer-rim',
+                area:['900px', '600px'],
+                content:"<div class='controls'>\n" +
+                "<h1>"+$(a).parent().find("input").val()+"</h1>"+
+                "</div>"
+                ,
+                btn:['关闭'],
+                btn1: function (index,layero) {
+                    layer.close(index);
+                }
+            });
+		}
+	}
+</script>
+<div style="display: none" >
+	<div id="hiddenPage"></div>
+</div>
+</body>
+</html>
+
+<!--===============================================================================================================-->
+<!--<div class="portfolio-desc" style="width:1200px;height:700px;border-right-width: 50px;border-right-style: solid;border-bottom-width: 50px;border-bottom-style: solid;border-top-width: 30px;border-top-style: solid;margin-left: 50px">-->
+	<!--<p class="pym-font" th:each="arr:${page}">-->
+		<!--<span >${arr.word}</span>-->
+		<!--<span class="pym-nbsp1" th:text="${arr.soundmark}"></span>-->
+		<!--<span class="pym-nbsp1" th:text="${arr.cn}"></span>-->
+		<!--<span><button class="btn btn-primary pull-right">词根</button></span>-->
+		<!--<span><button class="btn btn-primary pull-right">关联词</button></span>-->
+		<!--<span><button class="btn btn-primary pull-right">加入池</button></span>-->
+	<!--</p><br>-->
+	<!--<button class="btn btn-primary pull-right pym-pf" >首页</button>-->
+	<!--<button class="btn btn-primary pull-right pym-pf" th:href="">上一页</button>-->
+	<!--<button class="btn btn-primary pull-right pym-pf">下一页</button>-->
+	<!--<button class="btn btn-primary pull-right pym-pf">末尾页</button>-->
+<!--</div>-->
